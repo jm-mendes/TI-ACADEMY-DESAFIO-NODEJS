@@ -1,0 +1,367 @@
+{
+	"info": {
+		"_postman_id": "1d4d8a9b-71ce-487a-848e-6da3d6f8a860",
+		"name": "desafio-nodejs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22481392"
+	},
+	"item": [
+		{
+			"name": "inserirCliente",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Felipe Arantes\",\r\n    \"cidade\": \"Balneário Camburiu\",\r\n    \"uf\": \"SC\",\r\n    \"nascimento\": \"1985-04-20\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/cliente",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"cliente"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "inserirEmpresa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Star Store\",\r\n    \"dataAdesao\": \"2020-09-25\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/empresa",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"empresa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "inserirCartaoCliente",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"validade\": \"2025-05-08\",\r\n    \"dataCartao\": \"2022-05-08\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/cliente/4/cartao",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"cliente",
+						"4",
+						"cartao"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "inserirPromocaoEmpresa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Dia das Mães\",\r\n    \"descricao\": \"Compre 1, leve 2. Válido para produtos acima de R$80,00\",\r\n    \"validade\": \"2022-12-31\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/empresa/2/promocao",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"empresa",
+						"2",
+						"promocao"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "inserirCompra",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Dia das Mães\",\r\n    \"descricao\": \"Compre 1, leve 2. Válido para produtos acima de R$80,00\",\r\n    \"validade\": \"2022-12-31\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001//cartao/1/promocao/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"",
+						"cartao",
+						"1",
+						"promocao",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "consultarClientes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/clientes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"clientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "consultarEmpresas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/empresas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"empresas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listarCartoesClientes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/clientes/cartoes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"clientes",
+						"cartoes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listarPromocoesEmpresas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/empresas/promocoes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"empresas",
+						"promocoes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listarCartoesCliente",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/cliente/1/cartoes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"cliente",
+						"1",
+						"cartoes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listarPromocoesEmpresa",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/empresa/1/promocoes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"empresa",
+						"1",
+						"promocoes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listarCartao",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/cartao/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"cartao",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "atualizarCartao",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ClienteId\": 2,\r\n    \"dataCartao\": \"2022-05-08\",\r\n    \"validade\": \"2024-05-08\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/alterarcartao/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"alterarcartao",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "excluirCliente",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/excluir-cliente/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"excluir-cliente",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "excluirEmpresa",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/excluir-cliente/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"excluir-cliente",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
