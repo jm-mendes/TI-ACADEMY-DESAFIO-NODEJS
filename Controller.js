@@ -2,8 +2,10 @@ const express = require('express'); //framework que permite trabalhar com as rot
 const cors = require('cors'); //função de segurança; é um middleware
 const { Sequelize } = require('./models');
 const models = require('./models');
+const bodyParser = require('body-parser');
 
 const app = express();
+app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
 
@@ -98,9 +100,9 @@ app.post('/empresa', async (req, res) => {
 //bug -> dados indo como 'null'
 app.post('/empresa/:id/promocao', async (req, res) => {
     const prom = {
-        nome: req.body.data,
-        descricao: req.body.data,
-        validade: req.body.data, //ao utilizar o req.body.data => a informação foi como null no banco de dados
+        nome: req.body.nome,
+        descricao: req.body.descricao,
+        validade: req.body.validade, //ao utilizar o req.body.data => a informação foi como null no banco de dados
         EmpresaId: req.params.id
 
     };
@@ -130,31 +132,29 @@ app.post('/empresa/:id/promocao', async (req, res) => {
 //inserir uma compra
 app.post('/cartao/:idcartao/promocao/:idpromocao', async (req, res) => {
     const comp = {
-        data: req.body,
-        quantidade: req.body.data,
-        valor: req.body.data,
-        PromocaoId: req.params.idpromocao,
-        CartaoId: req.params.idcartao
-
+        data: req.body.data,
+        quantidade: req.body.quantidade,
+        valor: req.body.valor,
+        CartaoId: req.params.idcartao,
+        PromocaoId: req.params.idpromocao
     };
 
-    if (!await cartao.findByPk(req.params.idcartao) || !await promocao.findByPk(req.params.idpromocao)) {
-        if (!await cartao.findByPk(req.params.idcartao)) {
-            return res.status(400).json({
-                error: true,
-                message: "Cartão inexistente"
-            });
-        };
-    
-        if (!await promocao.findByPk(req.params.idpromocao)) {
-            return res.status(400).json({
-                error: true,
-                message: "Promocao inexistente"
-            });
-        };
-    }
 
-    await compra.create(compra)
+    // if (!await cartao.findByPk(comp.CartaoId)) {
+    //     return res.status(400).json({
+    //         error: true,
+    //         message: "Cartão inexistente"
+    //     });
+    // };
+
+    // if (!await promocao.findByPk(comp.PromocaoId)) {
+    //     return res.status(400).json({
+    //         error: true,
+    //         message: "Promocao inexistente"
+    //     });
+    // };
+
+    await compra.create(comp)
         .then(compra => {
             return res.json({
                 error: false,
@@ -188,7 +188,7 @@ app.get('/clientes', async (req, res) => {
 //Listar todos os Cartões dos Clientes
 app.get('/clientes/cartoes', async (req, res) => {
     await cartao.findAll()
-    //await cartao.findAll({ include: [{ all: true }] }) -> Assim não funcionou
+        //await cartao.findAll({ include: [{ all: true }] }) -> Assim não funcionou
         .then(cartoes => {
             return res.json({
                 error: false,
@@ -317,34 +317,34 @@ app.put('alterarcartao/:id', async (req, res) => {
 });
 
 //deletar um cliente
-app.delete('/excluir-cliente/:id', async(req,res)=>{
+app.delete('/excluir-cliente/:id', async (req, res) => {
     await cliente.destroy({
-        where: {id:req.params.id}
-    }).then(function(){
+        where: { id: req.params.id }
+    }).then(function () {
         return res.json({
             error: false,
             message: "Cliente foi excluído com sucesso",
         });
-    }).catch(erro=>{
+    }).catch(erro => {
         return res.status(400).json({
-            error:true,
+            error: true,
             message: "Problema de conexão com a API"
         });
     });
 });
 
 //deletar uma empresa
-app.delete('/excluirempresa/:id', async(req,res)=>{
+app.delete('/excluirempresa/:id', async (req, res) => {
     await empresa.destroy({
-        where: {id:req.params.id}
-    }).then(function(){
+        where: { id: req.params.id }
+    }).then(function () {
         return res.json({
             error: false,
             message: "Empresa foi excluída com sucesso",
         });
-    }).catch(erro=>{
+    }).catch(erro => {
         return res.status(400).json({
-            error:true,
+            error: true,
             message: "Problema de conexão com a API"
         });
     });
