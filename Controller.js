@@ -3,6 +3,7 @@ const cors = require('cors'); //função de segurança; é um middleware
 const { Sequelize } = require('./models');
 const models = require('./models');
 const bodyParser = require('body-parser');
+const database = require('./models')
 
 const app = express();
 app.use(bodyParser.json());
@@ -186,20 +187,29 @@ app.get('/clientes', async (req, res) => {
 
 //Listar todos os Cartões dos Clientes
 app.get('/clientes/cartoes', async (req, res) => {
-    await cartao.findAll()
-        //await cartao.findAll({ include: [{ all: true }] }) -> Assim não funcionou
-        .then(cartoes => {
-            return res.json({
-                error: false,
-                cartoes
-            });
-        }).catch(erro => {
-            return res.status(400).json({
-                error: true,
-                message: "Problema de conexão com a API."
-            });
-        });
-});
+
+//     const cartaos = await database.Cartoes.findAll()
+//         //await cartao.findAll({ include: [{ all: true }] }) -> Assim não funcionou
+//         .then(cartaos => {
+//         return res.json({
+//             error: false,
+//             cartaos
+//         });
+//     }).catch(erro => {
+//         return res.status(400).json({
+//             error: true,
+//             message: "Problema de conexão com a API."
+//         });
+//     });
+// }
+try {
+    const todosCartaos = await database.Cartao.findAll()
+    return res.status(200).json(todosCartaos)
+} catch (error) {
+    return res.status(400).json(error.message)
+}
+})
+;
 
 //Listar os Cartões de um Cliente específico
 app.get('/cliente/:id/cartoes', async (req, res) => {
@@ -300,12 +310,12 @@ app.put('alterarcartao/:id', async (req, res) => {
     };
 
     await cartao.update(card, {
-        where: Sequelize.and({ ClienteId: req.body.ClienteId }, {id: req.params.id})
-    }).then(umCard => {
+        where: Sequelize.and({ ClienteId: req.body.ClienteId }, { id: req.params.id })
+    }).then(cartao => {
         return res.json({
             error: false,
-            message: "Pedido foi atualizado com sucesso",
-            umCard
+            message: "Cartão foi atualizado com sucesso",
+            cartao
         });
     }).catch(erro => {
         return res.status(400).json({
@@ -314,6 +324,9 @@ app.put('alterarcartao/:id', async (req, res) => {
         });
     });
 });
+
+//Atualizar informação de um cliente
+
 
 //deletar um cliente
 app.delete('/excluir-cliente/:id', async (req, res) => {
@@ -373,7 +386,7 @@ app.delete('/excluircartao/:id', async (req, res) => {
     }).then(function () {
         return res.json({
             error: false,
-            message: "Cartão foi excluída com sucesso",
+            message: "Cartão foi excluído com sucesso",
         });
     }).catch(erro => {
         return res.status(400).json({
@@ -386,7 +399,7 @@ app.delete('/excluircartao/:id', async (req, res) => {
 //deletar uma compra
 app.delete('/cartao/:idcartao/promocao/:idpromocao', async (req, res) => {
     await compra.destroy({
-        where: Sequelize.and ({ CartaoId: req.params.idcartao }, {PromocaoId: req.params.idpromocao} ) 
+        where: Sequelize.and({ CartaoId: req.params.idcartao }, { PromocaoId: req.params.idpromocao })
     }).then(function () {
         return res.json({
             error: false,
