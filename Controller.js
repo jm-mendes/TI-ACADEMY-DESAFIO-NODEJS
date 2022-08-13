@@ -27,7 +27,7 @@ app.get('/', function (req, res) {
     res.send('Bem-vindo(a) a TI ACADEMY BRASIL');
 });
 
-//CRUD C-create R-recuperar/report U-update - D-delete
+//CRUD C-create R-recuperar/report U-update/atualizar -D-delete/excluir
 //CREATE
 
 //Inserir um novo cliente
@@ -97,12 +97,11 @@ app.post('/empresa', async (req, res) => {
 });
 
 //Inserir uma nova promocao para empresa
-//bug -> dados indo como 'null'
 app.post('/empresa/:id/promocao', async (req, res) => {
     const prom = {
         nome: req.body.nome,
         descricao: req.body.descricao,
-        validade: req.body.validade, //ao utilizar o req.body.data => a informação foi como null no banco de dados
+        validade: req.body.validade,
         EmpresaId: req.params.id
 
     };
@@ -140,14 +139,14 @@ app.post('/cartao/:idcartao/promocao/:idpromocao', async (req, res) => {
     };
 
 
-    // if (!await cartao.findByPk(comp.CartaoId)) {
+    // if (!await cartao.findByPk(req.params.idcartao)) {
     //     return res.status(400).json({
     //         error: true,
     //         message: "Cartão inexistente"
     //     });
     // };
 
-    // if (!await promocao.findByPk(comp.PromocaoId)) {
+    // if (!await promocao.findByPk(req.params.idpromocao)) {
     //     return res.status(400).json({
     //         error: true,
     //         message: "Promocao inexistente"
@@ -290,10 +289,10 @@ app.put('alterarcartao/:id', async (req, res) => {
     const card = {
         id: req.params.id,
         ClienteId: req.body.ClienteId,
-        dataCartao: req.body.data,
-        validade: req.body.data
+        dataCartao: req.body.dataCartao,
+        validade: req.body.validade
     }
-    if (! await cliente.findByPk(req.body.ClienteId)) {
+    if (!await cliente.findByPk(req.body.ClienteId)) {
         return res.status(400).json({
             error: true,
             message: "Cliente inexistente"
@@ -301,7 +300,7 @@ app.put('alterarcartao/:id', async (req, res) => {
     };
 
     await cartao.update(card, {
-        where: Sequelize.and({ ClienteId: req.body.ClienteId })
+        where: Sequelize.and({ ClienteId: req.body.ClienteId }, {id: req.params.id})
     }).then(umCard => {
         return res.json({
             error: false,
@@ -341,6 +340,57 @@ app.delete('/excluirempresa/:id', async (req, res) => {
         return res.json({
             error: false,
             message: "Empresa foi excluída com sucesso",
+        });
+    }).catch(erro => {
+        return res.status(400).json({
+            error: true,
+            message: "Problema de conexão com a API"
+        });
+    });
+});
+
+//deletar uma promocao
+app.delete('/excluirpromocao/:id', async (req, res) => {
+    await promocao.destroy({
+        where: { id: req.params.id }
+    }).then(function () {
+        return res.json({
+            error: false,
+            message: "Promoção foi excluída com sucesso",
+        });
+    }).catch(erro => {
+        return res.status(400).json({
+            error: true,
+            message: "Problema de conexão com a API"
+        });
+    });
+});
+
+//deletar um cartao
+app.delete('/excluircartao/:id', async (req, res) => {
+    await cartao.destroy({
+        where: { id: req.params.id }
+    }).then(function () {
+        return res.json({
+            error: false,
+            message: "Cartão foi excluída com sucesso",
+        });
+    }).catch(erro => {
+        return res.status(400).json({
+            error: true,
+            message: "Problema de conexão com a API"
+        });
+    });
+});
+
+//deletar uma compra
+app.delete('/cartao/:idcartao/promocao/:idpromocao', async (req, res) => {
+    await compra.destroy({
+        where: Sequelize.and ({ CartaoId: req.params.idcartao }, {PromocaoId: req.params.idpromocao} ) 
+    }).then(function () {
+        return res.json({
+            error: false,
+            message: "Compra foi excluída com sucesso",
         });
     }).catch(erro => {
         return res.status(400).json({
