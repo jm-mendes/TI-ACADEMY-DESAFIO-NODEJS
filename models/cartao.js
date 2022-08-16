@@ -13,10 +13,12 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Cartao.belongsTo(models.Cliente,
         { foreignKey: 'ClienteId', as: 'cliente_cartao' });
+
       Cartao.belongsToMany(models.Promocao,
-        { foreignKey: 'PromocaoId', through: 'Compra', as: 'promocao_cart' })
+        { foreignKey: 'PromocaoId', through: 'Compra', as: 'promocao_cartao' });
+
       Cartao.hasMany(models.Compra,
-        { foreignKey: 'CartaoId', as: 'compra' });
+        { foreignKey: 'CartaoId', as: 'compra_cartao' });
 
     }
   }

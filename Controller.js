@@ -208,8 +208,21 @@ try {
 } catch (error) {
     return res.status(400).json(error.message)
 }
-})
-;
+});
+
+//teste-cartoes
+app.get('/cartoes', async(req, res) => {
+    await cartao.findAll({
+        order: [['id', 'ASC']]   
+    }).then(function(cartoes){
+        res.json({cartoes})
+    }).catch(erro=>{
+        return res.status(400).json({
+            error: true,
+            message: "Não foi possível se conectar."
+        });
+    });
+});
 
 //Listar os Cartões de um Cliente específico
 app.get('/cliente/:id/cartoes', async (req, res) => {
@@ -292,6 +305,22 @@ app.get('/empresa/:id/promocoes', async (req, res) => {
             message: "Problema de conexão com a API."
         });
     });
+});
+
+//listar compras
+app.get('/cliente/compra', async (req, res) => {
+    await compra.findAll()
+        .then(compras => {
+            return res.json({
+                error: false,
+                compras
+            });
+        }).catch(erro => {
+            return res.status(400).json({
+                error: true,
+                message: "Problema de conexão com a API."
+            });
+        });
 });
 
 //Atualizar informações de um cartão
