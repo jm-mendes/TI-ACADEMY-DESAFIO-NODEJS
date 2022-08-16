@@ -331,30 +331,63 @@ app.put('alterarcartao/:id', async (req, res) => {
         dataCartao: req.body.dataCartao,
         validade: req.body.validade
     }
-    if (!await cliente.findByPk(req.body.ClienteId)) {
+    if (!await cartao.findByPk(req.params.id)) {
         return res.status(400).json({
             error: true,
-            message: "Cliente inexistente"
+            message: "Cartão inexistente"
         });
     };
 
-    await cartao.update(card, {
-        where: Sequelize.and({ ClienteId: req.body.ClienteId }, { id: req.params.id })
-    }).then(cartao => {
+    await cartao.update(card,{
+        where: Sequelize.and(
+            {id: req.params.id})
+    }).then(cartaos=>{
         return res.json({
             error: false,
-            message: "Cartão foi atualizado com sucesso",
-            cartao
+            mensagem: 'Cartão foi alterado com sucesso.',
+            cartaos
         });
-    }).catch(erro => {
+    }).catch(erro=>{
         return res.status(400).json({
             error: true,
-            message: "Problema de conexão com a API."
+            message: "Erro: não foi possível alterar."
         });
     });
 });
 
 //Atualizar informação de um cliente
+app.put('/alterarcliente/:id', async (req, res) => {
+    const cli = {
+        id: req.params.id,
+        nome: req.body.nome,
+        cidade: req.body.cidade,
+        uf: req.body.uf,
+        nascimento: req.body.nascimento
+    };
+
+    if (!await cliente.findByPk(req.params.id)){
+        return res.status(400).json({
+            error: true,
+            message: 'Cliente não existe.'
+        });
+    };
+
+    await cliente.update(cli,{
+        where: Sequelize.and(
+            {id: req.params.id})
+    }).then(clientes=>{
+        return res.json({
+            error: false,
+            mensagem: 'Cliente foi alterado com sucesso.',
+            clientes
+        });
+    }).catch(erro=>{
+        return res.status(400).json({
+            error: true,
+            message: "Erro: não foi possível alterar."
+        });
+    });
+});
 
 
 //deletar um cliente
