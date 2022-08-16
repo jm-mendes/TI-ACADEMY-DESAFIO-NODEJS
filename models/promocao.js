@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       Promocao.belongsTo(models.Empresa,
         { foreignKey: 'EmpresaId', as: 'empresa_promocao' });
 
-      Promocao.hasMany(models.Cartao),
-        { foreignKey: 'CartaoId', through: 'Compra', as: 'compra_promocao' }
+      Promocao.belongsToMany(models.Cartao,
+        { foreignKey: 'CartaoId', through: 'Compra', as: 'cartao_promocao' });
 
       Promocao.hasMany(models.Compra,
         { foreignKey: 'PromocaoId', as: 'compra_promocao' });
