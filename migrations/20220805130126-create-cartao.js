@@ -8,16 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      ClienteId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references:{
-          model: 'clientes',
-          key: 'id'
-        },
-        OnUpdate: 'CASCADE',
-        OnDelete: 'CASCADE'
-      },
       dataCartao: {
         type: Sequelize.DATEONLY
       },
@@ -28,6 +18,16 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
+      ClienteId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references:{
+          model: 'clientes',
+          key: 'id'
+        },
+        OnUpdate: 'CASCADE',
+        OnDelete: 'CASCADE'
+      },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -35,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Cartoes');
+    await queryInterface.dropTable('Cartaos');
   }
 };
