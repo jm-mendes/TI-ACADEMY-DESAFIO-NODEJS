@@ -320,7 +320,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"ClienteId\": 2,\r\n    \"dataCartao\": \"2022-05-08\",\r\n    \"validade\": \"2025-05-08\"\r\n}",
+					"raw": "{\r\n    \"ClienteId\": \"1\",\r\n    \"dataCartao\": \"2023-05-08\",\r\n    \"validade\": \"2026-05-08\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -337,6 +337,66 @@
 					"path": [
 						"alterarcartao",
 						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "atualizarCompra",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"data\": \"2022-08-07\",\r\n    \"quantidade\": 7,\r\n    \"valor\": 200.5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/cartao/1/promocao/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"cartao",
+						"1",
+						"promocao",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "atualizarPromocao",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"EmpresaId\": 1,\r\n    \"nome\": \"Dia dos Pais\",\r\n    \"descricao\": \"25% off para pagamentos à vista\",\r\n    \"validade\": \"2025-08-30\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/alterarpromocao/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"alterarpromocao",
+						"1"
 					]
 				}
 			},
@@ -366,6 +426,35 @@
 					"path": [
 						"alterarcliente",
 						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "alterarEmpresa",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Emprise7\",\r\n    \"dataAdesao\": \"2021-09-25\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/alterarempresa/9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"alterarempresa",
+						"9"
 					]
 				}
 			},
