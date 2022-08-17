@@ -53,8 +53,8 @@ app.post('/cliente', async (req, res) => {
 app.post('/cliente/:id/cartao', async (req, res) => {
     const cart = {
         ClienteId: req.params.id,
-        validade: req.body,
-        dataCartao: req.body //ao utilizar o req.body.data => a informação foi como null no banco de dados
+        validade: req.body.validade,
+        dataCartao: req.body.dataCartao
     };
 
     if (!await cliente.findByPk(req.params.id)) {
@@ -188,20 +188,6 @@ app.get('/clientes', async (req, res) => {
 //Listar todos os Cartões dos Clientes
 app.get('/clientes/cartoes', async (req, res) => {
 
-//     const cartaos = await database.Cartoes.findAll()
-//         //await cartao.findAll({ include: [{ all: true }] }) -> Assim não funcionou
-//         .then(cartaos => {
-//         return res.json({
-//             error: false,
-//             cartaos
-//         });
-//     }).catch(erro => {
-//         return res.status(400).json({
-//             error: true,
-//             message: "Problema de conexão com a API."
-//         });
-//     });
-// }
 try {
     const todosCartaos = await database.Cartao.findAll()
     return res.status(200).json(todosCartaos)
@@ -324,7 +310,7 @@ app.get('/cliente/compra', async (req, res) => {
 });
 
 //Atualizar informações de um cartão
-app.put('alterarcartao/:id', async (req, res) => {
+app.put('/alterarcartao/:id', async (req, res) => {
     const card = {
         id: req.params.id,
         ClienteId: req.body.ClienteId,
@@ -386,6 +372,94 @@ app.put('/alterarcliente/:id', async (req, res) => {
             error: true,
             message: "Erro: não foi possível alterar."
         });
+    });
+});
+
+//Atualizar informação de uma empresa
+app.put('/alterarempresa/:id', async (req, res) => {
+    const emp = {
+        id: req.params.id,
+        nome: req.body.nome,
+        dataAdesao: req.body.dataAdesao,
+    };
+
+    if (!await empresa.findByPk(req.params.id)){
+        return res.status(400).json({
+            error: true,
+            message: 'Empresa inexistente.'
+        });
+    };
+
+    await empresa.update(emp,{
+        where: Sequelize.and(
+            {id: req.params.id})
+    }).then(empresas=>{
+        return res.json({
+            error: false,
+            mensagem: 'Empresa foi alterada com sucesso.',
+            empresas
+        });
+    }).catch(erro=>{
+        return res.status(400).json({
+            error: true,
+            message: "Erro: não foi possível alterar."
+        });
+    });
+});
+
+//Atualizar informações de uma promoção
+app.put('/alterarpromocao/:id', async (req, res) => {
+    const promo = {
+        id: req.params.id,
+        EmpresaId: req.body.EmpresaId,
+        nome: req.body.nome,
+        descricao: req.body.descricao,
+        validade: req.body.validade,
+    }
+    if (!await promocao.findByPk(req.params.id)) {
+        return res.status(400).json({
+            error: true,
+            message: "Promoção inexistente"
+        });
+    };
+
+    await promocao.update(promo,{
+        where: Sequelize.and(
+            {id: req.params.id})
+    }).then(promocaos=>{
+        return res.json({
+            error: false,
+            mensagem: 'A promoção foi alterada com sucesso.',
+            promocaos
+        });
+    }).catch(erro=>{
+        return res.status(400).json({
+            error: true,
+            message: "Erro: não foi possível alterar."
+        });
+    });
+});
+
+//Atualizar informações de uma compra
+app.put('/cartao/:idcartao/promocao/:idpromocao', async (req, res) => {
+    const comp = {
+        CartaoId: req.params.idcartao,
+        data: req.params.data,
+        quantidade: req.body.quantidade,
+        valor: req.body.valor,
+        PromocaoId: req.params.idpromocao
+    }
+
+    await compra.update(comp,{
+        where: Sequelize.and({ CartaoId: req.params.idcartao, PromocaoId: req.params.idpromocao })
+    }).then(comp=>{
+        return res.json({
+            error: false,
+            message: 'A compra foi alterada com sucesso.',
+            comp
+        });
+    }).catch(erro=>{
+        return res.status(400).json(error.message);
     });
 });
 
