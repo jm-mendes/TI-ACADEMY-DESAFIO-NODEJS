@@ -25,8 +25,8 @@ module.exports = {
           model: 'clientes',
           key: 'id'
         },
-        OnUpdate: 'CASCADE',
-        OnDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       updatedAt: {
         allowNull: false,

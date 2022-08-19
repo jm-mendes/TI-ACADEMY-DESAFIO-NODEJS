@@ -10,8 +10,8 @@ module.exports = {
           model:'cartaos',
           key: 'id'
         },
-        OnUpdate: 'CASCADE',
-        OnDelete: 'CASCADE'
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       PromocaoId: {
         allowNull: false,
@@ -21,8 +21,8 @@ module.exports = {
           model:'promocaos',
           key: 'id'
         },
-        OnUpdate: 'CASCADE',
-        OnDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       data: {
         type: Sequelize.DATEONLY
