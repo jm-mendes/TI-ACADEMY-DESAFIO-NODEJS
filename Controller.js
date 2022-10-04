@@ -185,6 +185,23 @@ app.get('/clientes', async (req, res) => {
         });
 });
 
+//Listar um Cliente Específico
+app.get('/cliente/:id', async (req, res) => {
+    await cliente.findByPk(req.params.id)
+    .then(clientes => {
+        return res.json({
+            error: false,
+            clientes
+        });
+    }).catch(erro => {
+        return res.status(400).json({
+            error: true,
+            message: "Problema de conexão com a API."
+        });
+    });
+});
+
+
 //Listar todos os Cartões dos Clientes
 app.get('/clientes/cartoes', async (req, res) => {
 
@@ -325,7 +342,7 @@ app.put('/alterarcartao/:id', async (req, res) => {
     };
 
     await cartao.update(card,{
-        where: Sequelize.and(
+        where: Sequelize.and({ClienteId : req.body.ClienteId},
             {id: req.params.id})
     }).then(cartaos=>{
         return res.json({
