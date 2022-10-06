@@ -276,6 +276,22 @@ app.get('/empresas', async (req, res) => {
         });
 });
 
+//Listar um Cliente Específico
+app.get('/empresa/:id', async (req, res) => {
+    await empresa.findByPk(req.params.id)
+    .then(empresas => {
+        return res.json({
+            error: false,
+            empresas
+        });
+    }).catch(erro => {
+        return res.status(400).json({
+            error: true,
+            message: "Problema de conexão com a API."
+        });
+    });
+});
+
 
 //listar promocoes
 app.get('/empresas/promocoes', async (req, res) => {
@@ -284,6 +300,22 @@ app.get('/empresas/promocoes', async (req, res) => {
             return res.json({
                 error: false,
                 promocoes
+            });
+        }).catch(erro => {
+            return res.status(400).json({
+                error: true,
+                message: "Problema de conexão com a API."
+            });
+        });
+});
+
+//listar uma promocao em especifico
+app.get('/promocao/:id', async (req, res) => {
+    await promocao.findByPk(req.params.id)
+        .then(prom => {
+            return res.json({
+                error: false,
+                prom
             });
         }).catch(erro => {
             return res.status(400).json({
