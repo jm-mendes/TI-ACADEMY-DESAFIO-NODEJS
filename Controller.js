@@ -276,7 +276,7 @@ app.get('/empresas', async (req, res) => {
         });
 });
 
-//Listar um Cliente Específico
+//Listar uma Empresa
 app.get('/empresa/:id', async (req, res) => {
     await empresa.findByPk(req.params.id)
     .then(empresas => {
@@ -343,17 +343,36 @@ app.get('/empresa/:id/promocoes', async (req, res) => {
 });
 
 //listar compras
-app.get('/cliente/compra', async (req, res) => {
+app.get('/compras', async (req, res) => {
     await compra.findAll()
-        .then(compras => {
+        .then(comp => {
             return res.json({
                 error: false,
-                compras
+                comp
             });
         }).catch(erro => {
             return res.status(400).json({
                 error: true,
                 message: "Problema de conexão com a API."
+            });
+        });
+});
+
+//listar compra específica
+app.get('/cartao/:idcartao/promocao/:idpromocao', async (req, res) => {
+    await compra.findOne({
+        where: Sequelize.and({ CartaoId: req.params.idcartao, PromocaoId: req.params.idpromocao })
+    })
+        .then(comp => {
+            return res.json({
+                error: false,
+                comp
+            });
+        }).catch(erro => {
+            return res.status(400).json({
+                error: true,
+                message: "Problema de conexão com a API.",
+                erro: erro.message
             });
         });
 });
@@ -493,7 +512,7 @@ app.put('/alterarpromocao/:id', async (req, res) => {
 app.put('/cartao/:idcartao/promocao/:idpromocao', async (req, res) => {
     const comp = {
         CartaoId: req.params.idcartao,
-        data: req.params.data,
+        data: req.body.data,
         quantidade: req.body.quantidade,
         valor: req.body.valor,
         PromocaoId: req.params.idpromocao
